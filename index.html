@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ice Cream Ceria</title>
+    <title>One Scoop</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
 </head>
 <body>
     <header class="header">
-        <nav>
+        <nav id="navbar">
             <div class="nav_header">
                 <div class="nav_logo">
                     <a href="#">
-                        <img src="images/logo.jpg" alt="logo">
+                        <img src="images/logo.png" alt="Logo" class="nav_logo1">
                     </a>
                 </div>
                 <div id="menu-btn" class="nav_menu_btn">
@@ -26,16 +26,16 @@
                 <li><a href="#history">Sejarah</a></li>
                 <li><a href="#variant">Variant</a></li>
                 <li><a href="#facts">Fakta Seru</a></li>
-                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#contact">About Us</a></li>
             </ul>
         </nav>
         <div class="section_container header_container" id="home">
             <div class="header_image">
-                <img src="images/icecream4.jpg" alt="header"/>
+                <img src="images/awal2.png" alt="header"/>
             </div>
             <div class="header_content">
                 <h2>IT'S GOOD TIME FOR ICE CREAM</h2>
-                <h1>ICE CREAM <br> <span>GOOD</span></h1>
+                <h1>ONE SCOOP<br> <span>ICE CREAM</span></h1>
             </div>
         </div>
     </header>
@@ -49,14 +49,17 @@
 
     <section class="section_container banner_container" id="special">
         <div class="banner_card">
+            <div class="banner_overlay"></div>
             <p>TRY IT NOW!</p>
             <h4>MOST POPULAR ICE CREAM</h4>
         </div>
         <div class="banner_card">
+            <div class="banner_overlay"></div>
             <p>TRY IT NOW!</p>
             <h4>MORE FUN <br> MORE TASTE</h4>
         </div>
         <div class="banner_card">
+            <div class="banner_overlay"></div>
             <p>TRY IT NOW!</p>
             <h4>SO FRESH</h4>
         </div>
@@ -68,63 +71,72 @@
         <p class="section_description">
             Pilih es krim favoritmu dan rasakan kelezatan yang bikin hari lebih ceria! Dari mochi yang kenyal hingga stroberi yang segar, kami punya semua untukmu.
         </p>
-        <div class="order_grid">
-            <div class="order_card" onclick="openModal('mochi')">
-                <img src="images/icecream9.jpg" alt="Mochi Ice Cream">
-                <div class="overlay">Mochi Ice Cream</div>
-                <h4>Mochi Ice Cream</h4>
-                <p>Kenyal di luar, lembut di dalam, penuh kejutan!</p>
-                <button class="btn">Try it now!</button>
+        <div class="order_carousel">
+            <button class="carousel_btn prev_btn" onclick="scrollCarousel('prev')"><i class="ri-arrow-left-s-line"></i></button>
+            <div class="order_grid">
+                <div class="order_card" onclick="openModal('mochi')">
+                    <img src="images/icecream-mochi.jpg" alt="Mochi Ice Cream">
+                    <div class="overlay">Mochi Ice Cream</div>
+                    <h4>New Variant!<br> <span>Mochi Ice Cream</span></h4>
+                    <p>Kenyal di luar, lembut di dalam, penuh kejutan!</p>
+                    <button class="btn">More!</button>
+                </div>
+                <div class="order_card" onclick="openModal('chocolate')">
+                    <img src="images/icecream-choco.png" alt="Choco Ice Cream">
+                    <div class="overlay">Choco Ice Cream</div>
+                    <h4>Choco Ice Cream</h4>
+                    <p>Kaya rasa cokelat, bikin hati meleleh!</p>
+                    <button class="btn">More!</button>
+                </div>
+                <div class="order_card" onclick="openModal('strawberry')">
+                    <img src="images/icecream-strawberry.png" alt="Strawberry Ice Cream">
+                    <div class="overlay">Strawberry Ice Cream</div>
+                    <h4>Strawberry Ice Cream</h4>
+                    <p>Segar dan manis, seperti musim panas!</p>
+                    <button class="btn">More!</button>
+                </div>
+                <div class="order_card" onclick="openModal('three')">
+                    <img src="images/icecream-three.png" alt="Horn Three Tastes Ice Cream">
+                    <div class="overlay">Horn Three Tastes Ice Cream</div>
+                    <h4>Horn Three Tastes Ice Cream</h4>
+                    <p>Percampuran tiga rasa yang manis!</p>
+                    <button class="btn">More!</button>
+                </div>
             </div>
-            <div class="order_card" onclick="openModal('chocolate')">
-                <img src="images/icecream1.jpg" alt="Choco Ice Cream">
-                <div class="overlay">Choco Ice Cream</div>
-                <h4>Choco Ice Cream</h4>
-                <p>Kaya rasa cokelat, bikin hati meleleh!</p>
-                <button class="btn">Try it now!</button>
-            </div>
-            <div class="order_card" onclick="openModal('strawberry')">
-                <img src="images/icecream6.jpg" alt="Strawberry Ice Cream">
-                <div class="overlay">Strawberry Ice Cream</div>
-                <h4>Strawberry Ice Cream</h4>
-                <p>Segar dan manis, seperti musim panas!</p>
-                <button class="btn">Try it now!</button>
-            </div>
+            <button class="carousel_btn next_btn" onclick="scrollCarousel('next')"><i class="ri-arrow-right-s-line"></i></button>
         </div>
     </section>
 
-    <section class="section_container" id="facts">
-        <h3>FAKTA SERU</h3>
-        <h2 class="section_header">TAHUKAH KAMU?</h2>
-        <p class="section_description">Es krim bisa bikin harimu lebih ceria dalam sekejap!</p>
-        <button class="btn" onclick="showRandomFact()">Fakta Lain</button>
-        <p id="fact-text"></p>
+    <section class="section_container facts_container" id="facts">
+        <h3 class="facts_subheader">FAKTA SERU</h3>
+        <h2 class="section_header facts_header">TAHUKAH KAMU?</h2>
+        <p class="section_description facts_description">Es krim bisa bikin harimu lebih ceria dalam sekejap!</p>
+        <button class="btn facts_btn" onclick="showRandomFact()">Fakta Lain</button>
+        <p id="fact-text" class="fact_text"></p>
     </section>
 
-    <section class="reservation" id="contact">
-        <div class="section_container reservation_container">
-            <h3>RESERVATION</h3>
-            <h2 class="section_header">BOOK NOW</h2>
-            <form action="/">
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="date" placeholder="Date">
-                <input type="time" placeholder="Time">
-                <input type="number" placeholder="People">
-                <button class="btn" type="submit">FIND TABLE</button>
-            </form>
+    <section class="about" id="contact">
+        <div class="section_container about_container">
+            <h3 class="about_subheader">TENTANG KAMI</h3>
+            <h2 class="section_header about_header">ONE SCOOP ICE CREAM</h2>
+            <p class="section_description about_description">
+                One Scoop Ice Cream hadir untuk membawa kebahagiaan dalam setiap suapan! Kami adalah tim yang penuh semangat dalam menciptakan es krim dengan bahan-bahan segar dan berkualitas tinggi. 
+                Dari resep tradisional hingga inovasi modern seperti mochi ice cream, kami ingin membuat hari Anda lebih ceria dengan rasa yang tak terlupakan. 
+                Bergabunglah dengan kami dalam petualangan rasa ini dan nikmati kelezatan es krim yang bikin hati senang!
+            </p>
         </div>
-        <img src="images/background.jpg" alt="reservation" class="reservation_bg-1">
-        <img src="images/icecream1.jpg" alt="reservation" class="reservation_bg-2">
+        <img src="images/awal.png" alt="about" class="about_bg-1">
+        <img src="images/awal.png" alt="about" class="about_bg-2">
+        <img src="images/awal.png" alt="about" class="about_bg-3">
     </section>
 
     <footer class="footer">
         <div class="section_container footer_container">
             <div class="footer_logo">
-                <img src="images/logo.jpg" alt="Logo">
+                <img src="images/logo.png" alt="Logo">
             </div>
             <div class="footer_content">
-                <p>Es krim ceria, membawa kebahagiaan dalam setiap suapan! Nikmati kelezatan kami dan jadilah bagian dari petualangan rasa.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi placeat reiciendis nostrum, tempora aliquid iusto laboriosam earum quo perferendis repudiandae dolorem eveniet repellendus sapiente unde dolores doloribus eum dicta eaque!</p>
             </div>
             <div>
                 <ul class="footer_links">
@@ -134,7 +146,7 @@
                     </li>
                     <li>
                         <span><i class="ri-mail-fill"></i></span>
-                        info@icecreamceria.com
+                        info@onescoop.com
                     </li>
                 </ul>
                 <div class="footer_socials">
@@ -146,9 +158,22 @@
             </div>
         </div>
         <div class="footer_bar">
-            Copyright © 2025 Ice Cream Ceria. All rights reserved.
+            Copyright © 2025 One Scoop Ice Cream. All rights reserved.
         </div>
     </footer>
+
+    <div id="menu-modal" class="menu-modal">
+        <div class="menu-modal-content">
+            <span class="menu-close" onclick="closeMenuModal()">×</span>
+            <ul class="nav_links" id="nav-links-modal">
+                <li><a href="#home" onclick="closeMenuModal()">Home</a></li>
+                <li><a href="#history" onclick="closeMenuModal()">Sejarah</a></li>
+                <li><a href="#variant" onclick="closeMenuModal()">Variant</a></li>
+                <li><a href="#facts" onclick="closeMenuModal()">Fakta Seru</a></li>
+                <li><a href="#contact" onclick="closeMenuModal()">About Us</a></li>
+            </ul>
+        </div>
+    </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">

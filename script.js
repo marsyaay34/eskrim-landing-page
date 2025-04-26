@@ -3,9 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuBtn = document.getElementById("menu-btn");
     const menuModal = document.getElementById("menu-modal");
     const menuBtnIcon = menuBtn ? menuBtn.querySelector("i") : null;
+    const navbar = document.getElementById("navbar");
+    const navClue = document.getElementById("nav-clue");
 
-    if (!menuBtn || !menuModal || !menuBtnIcon) {
-        console.error("Error: #menu-btn, #menu-modal, or icon not found in DOM");
+    if (!menuBtn || !menuModal || !menuBtnIcon || !navbar || !navClue) {
+        console.error("Error: Required elements not found in DOM");
         return;
     }
 
@@ -28,19 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Efek header muncul/hilang berdasarkan posisi cursor
-    const navbar = document.getElementById("navbar");
     let isMouseInHeader = false;
     let isMouseNearTop = false;
 
     navbar.addEventListener("mouseenter", () => {
         isMouseInHeader = true;
         navbar.classList.remove("hidden");
+        navClue.classList.add("hidden");
     });
 
     navbar.addEventListener("mouseleave", () => {
         isMouseInHeader = false;
         if (!isMouseNearTop) {
             navbar.classList.add("hidden");
+            navClue.classList.remove("hidden");
         }
     });
 
@@ -48,12 +51,15 @@ document.addEventListener("DOMContentLoaded", () => {
         isMouseNearTop = e.clientY <= 10;
         if (isMouseNearTop || isMouseInHeader) {
             navbar.classList.remove("hidden");
+            navClue.classList.add("hidden");
         } else {
             navbar.classList.add("hidden");
+            navClue.classList.remove("hidden");
         }
     });
 
-    navbar.classList.remove("hidden");
+    navbar.classList.add("hidden");
+    navClue.classList.remove("hidden");
 
     // Initialize with a random fact
     showRandomFact();

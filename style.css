@@ -87,15 +87,18 @@ html, body {
     flex-direction: column;
     justify-content: space-between;
     padding: 0;
+    position: relative;
 }
 
 nav {
     position: fixed;
+    top: 0;
     width: 100%;
     z-index: 1000;
     background-color: var(--primary-color);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    margin-top: 10px; /* Jarak dari tepi atas */
 }
 
 nav.hidden {
@@ -105,7 +108,7 @@ nav.hidden {
 .nav_header {
     width: 100%;
     max-width: var(--max-width);
-    margin: left;
+    margin: 0 auto;
     padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
@@ -115,7 +118,7 @@ nav.hidden {
 
 .nav_logo {
     display: flex;
-    align-items: left;
+    align-items: center;
 }
 
 .nav_logo img {
@@ -133,6 +136,36 @@ nav.hidden {
 
 .nav_links {
     display: none;
+}
+
+.nav_logo_right {
+    display: none;
+}
+
+.nav-clue {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.nav-clue.hidden {
+    opacity: 0;
+}
+
+.nav-clue-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--secondary-color);
+    transition: transform 0.3s ease;
+}
+
+.nav-clue-img:hover {
+    transform: scale(1.1);
 }
 
 .menu-modal {
@@ -771,6 +804,15 @@ nav.hidden {
     .nav_menu_btn {
         display: block !important;
     }
+
+    .nav-clue {
+        bottom: 10px;
+    }
+
+    .nav-clue-img {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media (min-width: 769px) {
@@ -782,22 +824,30 @@ nav.hidden {
         display: none;
     }
 
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+    }
+
     .nav_links {
         display: flex;
         flex-direction: row;
-        gap: 1.5rem;
         list-style: none;
         background-color: transparent;
         position: static;
-        padding: 0;
+        padding: 0.5rem 0;
         transform: none;
-        justify-content: center;
+        max-width: 800px; /* Membatasi lebar teks navigasi */
+        margin: 0 auto;
         align-items: center;
-        width: 100%;
+        gap: 1rem; /* Jarak antar teks */
     }
 
     .nav_links li {
-        flex: 0 0 auto;
+        flex: 2;
+        text-align: center;
     }
 
     .nav_links a {
@@ -812,6 +862,25 @@ nav.hidden {
 
     .nav_links a:hover {
         color: var(--secondary-color);
+    }
+
+    .nav_logo_right {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+    }
+
+    .nav_logo_right_img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid var(--secondary-color);
+        padding: 5px;
+        transition: transform 0.3s ease;
+    }
+
+    .nav_logo_right_img:hover {
+        transform: scale(1.1);
     }
 
     .header_container {

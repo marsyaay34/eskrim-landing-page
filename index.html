@@ -261,17 +261,17 @@
     <script>
         // Log visitor data to Google Sheets
         function logVisitor() {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec'; // Ganti dengan URL Web App Anda
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec';
             const timestamp = new Date().toISOString();
 
             // Ambil IP Address menggunakan API ipify.org
-            fetch('https://api.ipify.org?format=json')
+            fetch('https://api.ipify.org?format=json', { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
-                    const ipAddress = data.ip;
+                    const ipAddress = data.ip || 'Unknown';
 
                     // Kirim data ke Google Apps Script
-                    fetch(scriptURL, {
+                    return fetch(scriptURL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: {
@@ -282,12 +282,12 @@
                             ipAddress: ipAddress,
                             timestamp: timestamp
                         })
-                    }).catch(error => console.error('Error logging visitor:', error));
+                    });
                 })
                 .catch(error => {
-                    console.error('Error fetching IP:', error);
-                    // Jika gagal mendapatkan IP, kirim data tanpa IP
-                    fetch(scriptURL, {
+                    console.error('Error fetching IP or logging visitor:', error);
+                    // Jika gagal mendapatkan IP, tetap kirim data dengan IP 'Unknown'
+                    return fetch(scriptURL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: {
@@ -295,10 +295,20 @@
                         },
                         body: JSON.stringify({
                             action: 'logVisitor',
-                            ipAddress: 'Unknown',
+                            ipAddress: 'Unknown (Fetch Failed)',
                             timestamp: timestamp
                         })
-                    }).catch(error => console.error('Error logging visitor:', error));
+                    });
+                })
+                .catch(error => {
+                    console.error('Error logging visitor:', error);
+                    // Tampilkan notifikasi ke pengguna (opsional)
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal mencatat data pengunjung. Silakan coba lagi nanti.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 });
         }
 
@@ -306,7 +316,7 @@
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec'
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec';
             const formData = new FormData(this);
             const data = {
                 action: 'submitOrder',
@@ -319,6 +329,16 @@
                 timestamp: new Date().toISOString()
             };
             
+            // Tampilkan loading
+            Swal.fire({
+                title: 'Mengirim...',
+                text: 'Harap tunggu sebentar.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -347,6 +367,9 @@
 
         // Log visitor when page loads
         window.addEventListener('load', logVisitor);
+
+        // Validasi tanggal pengiriman
+        document.getElementById('deliveryDate').setAttribute('min', new Date().toISOString().split('T')[0]);
     </script>
 </body>
 </html>

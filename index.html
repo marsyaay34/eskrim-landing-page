@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Tambahkan favicon untuk menghilangkan error GET favicon.ico -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
     <header class="header">
@@ -263,53 +265,31 @@
         function logVisitor() {
             const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec';
             const timestamp = new Date().toISOString();
+            const ipAddress = 'Unknown'; // Sementara gunakan 'Unknown' untuk IP
 
-            // Ambil IP Address menggunakan API ipify.org
-            fetch('https://api.ipify.org?format=json', { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    const ipAddress = data.ip || 'Unknown';
-
-                    // Kirim data ke Google Apps Script
-                    return fetch(scriptURL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            action: 'logVisitor',
-                            ipAddress: ipAddress,
-                            timestamp: timestamp
-                        })
-                    });
+            // Kirim data ke Google Apps Script
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'logVisitor',
+                    ipAddress: ipAddress,
+                    timestamp: timestamp
                 })
-                .catch(error => {
-                    console.error('Error fetching IP or logging visitor:', error);
-                    // Jika gagal mendapatkan IP, tetap kirim data dengan IP 'Unknown'
-                    return fetch(scriptURL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            action: 'logVisitor',
-                            ipAddress: 'Unknown (Fetch Failed)',
-                            timestamp: timestamp
-                        })
-                    });
-                })
-                .catch(error => {
-                    console.error('Error logging visitor:', error);
-                    // Tampilkan notifikasi ke pengguna (opsional)
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Gagal mencatat data pengunjung. Silakan coba lagi nanti.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
+            }).then(() => {
+                console.log('Log visitor berhasil');
+            }).catch(error => {
+                console.error('Error logging visitor:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Gagal mencatat data pengunjung. Silakan coba lagi nanti.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
                 });
+            });
         }
 
         // Handle form submission
@@ -329,7 +309,6 @@
                 timestamp: new Date().toISOString()
             };
             
-            // Tampilkan loading
             Swal.fire({
                 title: 'Mengirim...',
                 text: 'Harap tunggu sebentar.',

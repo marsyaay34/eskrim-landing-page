@@ -109,10 +109,6 @@ const iceCreamData = {
         title: "Matcha Green",
         description: "Segar dengan sentuhan teh hijau premium dari Jepang. Untuk pecinta rasa yang unik dan menyehatkan!"
     },
-    rainbow: {
-        title: "Rainbow Swirl",
-        description: "Warna-warni yang bikin semangat! Kombinasi berbagai rasa buah yang segar dalam satu cone."
-    },
     cookies: {
         title: "Cookies & Cream",
         description: "Perpaduan sempurna es krim vanilla dengan potongan cookies cokelat yang renyah."

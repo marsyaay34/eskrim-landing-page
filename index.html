@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header class="header">
@@ -110,6 +111,27 @@
                     <p>Percampuran tiga rasa yang manis!</p>
                     <button class="btn">More!</button>
                 </div>
+                <div class="order_card" onclick="openModal('vanilla')">
+                    <img src="images/icecream-vanilla.png" alt="Vanilla Dream">
+                    <div class="overlay">Vanilla Dream</div>
+                    <h4>Vanilla Dream</h4>
+                    <p>Klasik yang tak pernah mengecewakan!</p>
+                    <button class="btn">More!</button>
+                </div>
+                <div class="order_card" onclick="openModal('matcha')">
+                    <img src="images/icecream-matcha.jpg" alt="Matcha Green">
+                    <div class="overlay">Matcha Green</div>
+                    <h4>Matcha Green</h4>
+                    <p>Segar dengan sentuhan teh hijau premium!</p>
+                    <button class="btn">More!</button>
+                </div>
+                <div class="order_card" onclick="openModal('cookies')">
+                    <img src="images/icecream-cookies.png" alt="Cookies & Cream">
+                    <div class="overlay">Cookies & Cream</div>
+                    <h4>Cookies & Cream</h4>
+                    <p>Perpaduan sempurna es krim dan cookies!</p>
+                    <button class="btn">More!</button>
+                </div>
             </div>
             <button class="carousel_btn next_btn" onclick="scrollCarousel('next')"><i class="ri-arrow-right-s-line"></i></button>
         </div>
@@ -121,6 +143,49 @@
         <p class="section_description facts_description">Es krim bisa bikin harimu lebih ceria dalam sekejap!</p>
         <button class="btn facts_btn" onclick="showRandomFact()">Fakta Lain</button>
         <p id="fact-text" class="fact_text"></p>
+    </section>
+
+    <section class="section_container order-form-container" id="order">
+        <h2 class="section_header">PESAN SEKARANG</h2>
+        <p class="section_description">
+            Isi form berikut untuk memesan es krim favoritmu. Kami akan menghubungi Anda untuk konfirmasi pesanan.
+        </p>
+        <form id="orderForm" class="order-form">
+            <div class="form-group">
+                <label for="name">Nama Lengkap</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="variant">Varian Es Krim</label>
+                <select id="variant" name="variant" required>
+                    <option value="">Pilih Varian</option>
+                    <option value="Mochi Ice Cream">Mochi Ice Cream</option>
+                    <option value="Choco Ice Cream">Choco Ice Cream</option>
+                    <option value="Strawberry Ice Cream">Strawberry Ice Cream</option>
+                    <option value="Horn Three Tastes">Horn Three Tastes</option>
+                    <option value="Vanilla Dream">Vanilla Dream</option>
+                    <option value="Matcha Green">Matcha Green</option>
+                    <option value="Cookies & Cream">Cookies & Cream</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Jumlah</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+            </div>
+            <div class="form-group">
+                <label for="deliveryDate">Tanggal Pengiriman</label>
+                <input type="date" id="deliveryDate" name="deliveryDate" required>
+            </div>
+            <div class="form-group">
+                <label for="notes">Catatan Tambahan</label>
+                <textarea id="notes" name="notes" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn submit-btn">Pesan Sekarang</button>
+        </form>
     </section>
 
     <section class="about" id="contact">
@@ -144,7 +209,7 @@
                 <img src="images/logo.png" alt="Logo">
             </div>
             <div class="footer_content">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi placeat reiciendis nostrum, tempora aliquid iusto laboriosam earum quo perferendis repudiandae dolorem eveniet repellendus sapiente unde dolores doloribus eum dicta eaque!</p>
+                <p>One Scoop Ice Cream - Membawa kebahagiaan dalam setiap suapan sejak 2020. Es krim kami dibuat dengan bahan-bahan terbaik dan penuh cinta.</p>
             </div>
             <div>
                 <ul class="footer_links">
@@ -178,6 +243,7 @@
                 <li><a href="#history" onclick="closeMenuModal()">Sejarah</a></li>
                 <li><a href="#variant" onclick="closeMenuModal()">Variant</a></li>
                 <li><a href="#facts" onclick="closeMenuModal()">Fakta Seru</a></li>
+                <li><a href="#order" onclick="closeMenuModal()">Pesan</a></li>
                 <li><a href="#contact" onclick="closeMenuModal()">About Us</a></li>
             </ul>
         </div>
@@ -192,5 +258,95 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Log visitor data to Google Sheets
+        function logVisitor() {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec'; // Ganti dengan URL Web App Anda
+            const timestamp = new Date().toISOString();
+
+            // Ambil IP Address menggunakan API ipify.org
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ipAddress = data.ip;
+
+                    // Kirim data ke Google Apps Script
+                    fetch(scriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: 'logVisitor',
+                            ipAddress: ipAddress,
+                            timestamp: timestamp
+                        })
+                    }).catch(error => console.error('Error logging visitor:', error));
+                })
+                .catch(error => {
+                    console.error('Error fetching IP:', error);
+                    // Jika gagal mendapatkan IP, kirim data tanpa IP
+                    fetch(scriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: 'logVisitor',
+                            ipAddress: 'Unknown',
+                            timestamp: timestamp
+                        })
+                    }).catch(error => console.error('Error logging visitor:', error));
+                });
+        }
+
+        // Handle form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec'
+            const formData = new FormData(this);
+            const data = {
+                action: 'submitOrder',
+                name: formData.get('name'),
+                email: formData.get('email'),
+                variant: formData.get('variant'),
+                quantity: formData.get('quantity'),
+                deliveryDate: formData.get('deliveryDate'),
+                notes: formData.get('notes'),
+                timestamp: new Date().toISOString()
+            };
+            
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then(() => {
+                Swal.fire({
+                    title: 'Pesanan Berhasil!',
+                    text: 'Terima kasih telah memesan es krim kami. Kami akan segera menghubungi Anda.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                this.reset();
+            }).catch(error => {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat mengirim pesanan. Silakan coba lagi.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                console.error('Error:', error);
+            });
+        });
+
+        // Log visitor when page loads
+        window.addEventListener('load', logVisitor);
+    </script>
 </body>
 </html>

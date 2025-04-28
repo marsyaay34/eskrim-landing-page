@@ -100,6 +100,22 @@ const iceCreamData = {
     three: {
         title: "Horn Three Tastes Ice Cream",
         description: "Percampuran tiga rasa yang manis, memberikan pengalaman rasa yang unik dan menyenangkan!"
+    },
+    vanilla: {
+        title: "Vanilla Dream",
+        description: "Klasik yang tak pernah mengecewakan! Rasa vanilla premium dengan aroma yang menggoda."
+    },
+    matcha: {
+        title: "Matcha Green",
+        description: "Segar dengan sentuhan teh hijau premium dari Jepang. Untuk pecinta rasa yang unik dan menyehatkan!"
+    },
+    rainbow: {
+        title: "Rainbow Swirl",
+        description: "Warna-warni yang bikin semangat! Kombinasi berbagai rasa buah yang segar dalam satu cone."
+    },
+    cookies: {
+        title: "Cookies & Cream",
+        description: "Perpaduan sempurna es krim vanilla dengan potongan cookies cokelat yang renyah."
     }
 };
 
@@ -134,7 +150,11 @@ function showRandomFact() {
     const facts = [
         "Es krim warna-warni bisa bikin suasana pesta lebih seru! 🎉",
         "Ada es krim rasa unicorn yang penuh glitter, lho! 🦄✨",
-        "Makan es krim sambil ketawa bikin hidup lebih ceria! 😄🍦"
+        "Makan es krim sambil ketawa bikin hidup lebih ceria! 😄🍦",
+        "Es krim pertama kali dibuat di China sekitar 200 SM! 🕰️",
+        "Rata-rata orang Amerika makan sekitar 23 liter es krim per tahun! 🇺🇸",
+        "Vanilla adalah rasa es krim paling populer di dunia! 🌍",
+        "Sensasi 'brain freeze' terjadi ketika es krim menyentuh langit-langit mulut! ❄️"
     ];
     const randomFact = facts[Math.floor(Math.random() * facts.length)];
     document.getElementById("fact-text").innerText = randomFact;
@@ -152,3 +172,53 @@ function scrollCarousel(direction) {
         orderGrid.scrollLeft -= scrollAmount;
     }
 }
+
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    Swal.fire({
+        title: 'Mengirim...',
+        text: 'Harap tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx7KvyRtAdUTHu4VQ_K_yNn-Q0olboT74S_UaamEx8kW65U28nz_ZyLcEUVA1Wn_Znv/exec';
+    const formData = new FormData(this);
+    const data = {
+        action: 'submitOrder',
+        name: formData.get('name'),
+        email: formData.get('email'),
+        variant: formData.get('variant'),
+        quantity: formData.get('quantity'),
+        deliveryDate: formData.get('deliveryDate'),
+        notes: formData.get('notes'),
+        timestamp: new Date().toISOString()
+    };
+    
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(() => {
+        Swal.fire({
+            title: 'Pesanan Berhasil!',
+            text: 'Terima kasih telah memesan es krim kami. Kami akan segera menghubungi Anda.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+        this.reset();
+    }).catch(error => {
+        Swal.fire({
+            title: 'Error',
+            text: 'Terjadi kesalahan saat mengirim pesanan. Silakan coba lagi.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        console.error('Error:', error);
+    });
+});
